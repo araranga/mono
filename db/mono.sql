@@ -70,6 +70,7 @@ CREATE TABLE IF NOT EXISTS `tbl_package` (
   `package_id` int(255) NOT NULL,
   `package_name` varchar(255) NOT NULL,
   `possible_earning` int(255) NOT NULL,
+  `cycle_earn` int(255) NOT NULL,
   `account_count` int(255) NOT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 
