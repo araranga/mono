@@ -51,10 +51,10 @@ $field[] = array("type"=>"select","value"=>"package_id","label"=>"Package","opti
                   <select name="<?php echo $inputs['value']; ?>" id="<?php echo $inputs['value']; ?>" required <?php echo $inputs['attr']; ?>
                      >
                      <?php
-                        foreach($inputs['option'] as $val)
+                        foreach($inputs['option'] as $key=>$val)
                         {
                         	?>
-                     <option <?php if($$inputs['value']==$val){echo"selected='selected'";} ?> value='<?php echo $val;?>'><?php echo $val;?></option>
+                     <option <?php if($$inputs['value']==$key){echo"selected='selected'";} ?> value='<?php echo $key;?>'><?php echo $val;?></option>
                      <?php
                         }
                         ?>

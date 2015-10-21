@@ -5,6 +5,7 @@
 $field[] = array("type"=>"text","value"=>"package_name","label"=>"Package Name");
 $field[] = array("type"=>"number","value"=>"possible_earning","label"=>"Possible Earnings");
 $field[] = array("type"=>"number","value"=>"account_count","label"=>"Account Counts");
+$field[] = array("type"=>"number","value"=>"cycle_earn","label"=>"Earning per Cycle");
 ?>
 <h2>Package</h2>
 <div class="panel panel-default">

@@ -13,6 +13,7 @@ while($row=mysql_fetch_assoc($query))
 $field[] = array("type"=>"text","value"=>"package_name","label"=>"Package Name","attr"=>"disabled");
 $field[] = array("type"=>"number","value"=>"possible_earning","label"=>"Possible Earnings","attr"=>"disabled");
 $field[] = array("type"=>"number","value"=>"account_count","label"=>"Account Counts","attr"=>"disabled");
+$field[] = array("type"=>"number","value"=>"cycle_earn","label"=>"Earning per Cycle","attr"=>"disabled");
 ?>
 <h2>Are you sure you want to delete?</h2>
 <div class="panel panel-default">

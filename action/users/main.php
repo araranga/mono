@@ -1,5 +1,11 @@
 ﻿<?php
 $q = mysql_query("SELECT * FROM tbl_accounts");
+
+$packrowq = mysql_query("SELECT * FROM tbl_package");
+while($packrow = mysql_fetch_assoc($packrowq))
+{
+	$options[$packrow['package_id']] = $packrow['package_name'];
+}
 ?>
 <h2>Users</h2>
                     <div class="panel panel-default">
@@ -25,7 +31,7 @@ $q = mysql_query("SELECT * FROM tbl_accounts");
                                         <tr>
                                             <td><?php echo $pid = $row['accounts_id']; ?></td>
                                             <td><?php echo $row['username']; ?> / <?php echo $row['password']; ?></td>
-											<td><?php echo $row['package_id']; ?></td>
+											<td><?php echo $options[$row['package_id']]; ?></td>
 											<td><?php echo $row['email']; ?></td>
 											<td>
 											

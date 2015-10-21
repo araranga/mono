@@ -12,7 +12,8 @@ $q = mysql_query("SELECT * FROM tbl_package");
                                         <tr>
                                             <th>Package ID</th>
                                             <th>Package Name</th>
-                                            <th>Earning</th>
+											<th>Per Cycle Earnings</th>
+                                            <th>Total Earnings</th>
 											<th>Account Counts</th>
 											<th>Action</th>
                                         </tr>
@@ -25,6 +26,7 @@ $q = mysql_query("SELECT * FROM tbl_package");
                                         <tr>
                                             <td><?php echo $pid = $row['package_id']; ?></td>
                                             <td><?php echo $row['package_name']; ?></td>
+											<td><?php echo $row['cycle_earn']; ?></td>
                                             <td><?php echo $row['possible_earning']; ?></td>
 											<td><?php echo $row['account_count']; ?></td>
 											<td>
