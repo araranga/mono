@@ -9,7 +9,7 @@
                 <?php
                   $main = getrow("tbl_logo");
                 ?>
-                <a class="navbar-brand" href="index.php"><img src="/adminpage/media/<?php echo $main['image'];?>" style="margin-top: -8px;width:100%;" alt="Genesis"></a> 
+                <a class="navbar-brand" href="index.php"><img src="<?php echo $main['image'];?>" style="margin-top: -8px;width:100%;" alt="Genesis"></a> 
             </div>
 
         </nav>   

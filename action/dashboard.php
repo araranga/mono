@@ -1,7 +1,7 @@
 ﻿<?php
 session_start();
-include("../../connect.php");
-include("../../function.php");
+require_once("./connect.php");
+require_once("./function.php");
 ?>
  <style>
  #incomeSummary > .panel-heading {
@@ -32,7 +32,7 @@ include("../../function.php");
 }
 div#incomeSummary, div#transactionSummary {
   display: inline-block;
-  width: 48%;
+  width: 100%;
   margin: 7px;
   float: left;
 }
@@ -45,34 +45,6 @@ div#incomeSummary, div#transactionSummary {
   padding: 5px;
 }
 </style>
-<?php
-$capital = mysql_query("SELECT c.rate_start FROM tbl_accounts as a JOIN tbl_code as b JOIN tbl_rate as c WHERE accounts_id='".$_SESSION['accounts_id']."'
-AND c.rate_id=b.code_package AND a.code_id=b.code_value");
-$capital_row  = mysql_fetch_assoc($capital);
-
-$capitalsum = mysql_query("SELECT SUM(amount) as sum FROM tbl_withdraw_history WHERE accounts_id='".$_SESSION['accounts_id']."'");
-$capital_row_sum  = mysql_fetch_assoc($capitalsum);
-
-if($capital_row['rate_start']=='')
-{
-    $capital_row['rate_start'] = 0;
-}
-$accounts_id = $_SESSION['accounts_id'];
-$expenses = mysql_query("SELECT SUM(b.rate_start) as sum FROM tbl_buycode_history as a JOIN tbl_rate as b
-WHERE a.accounts_id='$accounts_id' AND b.rate_id=a.package_id");
-$expenses_row = mysql_fetch_array($expenses);
-
-$q = mysql_query("SELECT * FROM tbl_accounts WHERE accounts_id='$accounts_id'");
-$row = mysql_fetch_assoc($q);
-
-
-
-$total_earnings = $row['balance'] + $capital_row_sum['sum'];
-$total_available_balance = $row['balance'];
-$total_purchased_code = $expenses_row['sum'] + 0;
-$total_widrawals = $capital_row_sum['sum'];
-?>
-
 <div class="row" onload="resettab()">
 <div class="col-md-12 col-sm-12">
 
@@ -132,39 +104,5 @@ function numberand()
 {
   return Math.floor((Math.random() * 10000) + 1);
 }
-function resetall()
-{
-	//.nav-tabs li
-jQuery( ".nav-tabs li" ).each(function() {
-  jQuery( this ).removeClass( "active" );
-});	
-	
-	
-}
-function homeloader()
-{
-         jQuery("#home").html('<p style="color: green;font-weight: 700;"><i class="fa fa-cog fa-spin"></i> Loading your Table details please wait...</p>');
-}
-function resetbug()
-{
-         jQuery("#home").html('<p style="color: green;font-weight: 700;"><i class="fa fa-error"></i>Your History is not available. Sorry.</p>');
-}
-function resettab()
-{
-
-    homeloader();
-    jQuery.post("dashboard/downline<?php echo $qxrow2['rate_req'];?>.php?cache="+numberand(), function(result){
-        jQuery("#home").html(result);
-    });
-}
-function switchtab(tpl,curtbl)
-{
-
-    homeloader();
-    jQuery.post("dashboard/"+tpl+".php?cache="+numberand()+"&tbl="+curtbl, function(result){
-        jQuery("#home").html(result);
-    });
-}
-
 </script>
 

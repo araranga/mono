@@ -1,7 +1,7 @@
 ﻿<?php
 session_start();
-include("../../connect.php");
-include("../../function.php");
+require_once("./connect.php");
+require_once("./function.php");
 $accounts_id = $_SESSION['accounts_id'];
 
 	if($_POST['submit']!='')

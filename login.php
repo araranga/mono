@@ -2,7 +2,7 @@
 session_start();
 include("connect.php");
 include("function.php");
-$main = getrow("tbl_logo");
+$main = getrow("tbl_logo");	
 ?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -44,7 +44,7 @@ if($_GET['error']==1)
 						
                         <div class="panel panel-default">
                             <div class="panel-heading" style=' background-color: #131212'>
-                        <strong><img src="/adminpage/media/<?php echo $main['image'];?>" alt="Genesis"></strong>  
+                        <strong><img src="<?php echo $main['image'];?>" alt="Genesis"></strong>  
                             </div>
                             <div class="panel-body">
                                 <form role="form">
