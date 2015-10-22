@@ -20,6 +20,34 @@ function getbaseme()
 	 return implode(",",$return);
 	}
 
+	function randid()
+	{
+		return rand().strtotime("now");
+	}
+	function totalaccount()
+	{
+		$query = "SELECT username,accounts_id as aid,(SELECT COUNT(id) FROM tbl_cycle WHERE account_link = aid AND cycle_count=1 AND cycle_link = 0) as totalacct,account_count FROM tbl_accounts as acct
+		JOIN tbl_package as pck WHERE pck.package_id = acct.package_id
+		HAVING totalacct < account_count LIMIt 1";
+		return mysql_query($query);
+
+	}
+
+	function autocreateaccount()
+	{
+		while($row=mysql_fetch_assoc(totalaccount()))
+		{
+			$limit  = $row['account_count'] - $row['totalacct'];
+			$aid = $row['aid'];
+			for ($x = 1; $x <= $limit; $x++) {
+				$username = $row['username']."-".randid();
+				mysql_query("INSERT INTO tbl_cycle SET username='$username',account_link='$aid',cycle_count='1',cycle_link='0'");
+			}			
+			return;
+		}
+	}
+
+
 function success200($curtbladded,$id)
 {
 $log  = '';

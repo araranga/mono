@@ -82,20 +82,45 @@ div#incomeSummary, div#transactionSummary {
 
 
 <div class="row">
-<div class="col-md-12 col-sm-12">
-
-
-
-
-    <div class="panel panel-default">
-        <div class="panel-heading">
-			My Accounts      
-        </div>        
-        <div class="panel-body">
-			---table---
-        </div>
-    </div>
-</div>            
+   <div class="col-md-12 col-sm-12">
+      <div class="panel panel-default">
+         <div class="panel-heading">
+            My Accounts      
+         </div>
+         <div class="panel-body">
+            <?php
+               $q = mysql_query("SELECT * FROM tbl_cycle WHERE account_link='".$_SESSION['accounts_id']."'");
+               ?>
+            <div class="table-responsive">
+               <table class="table table-striped table-bordered table-hover">
+                  <thead>
+                     <tr>
+                        <th>Account #</th>
+                        <th>Cycle 1</th>
+                        <th>Cycle 2</th>
+                        <th>Cycle 3</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <?php
+                        while($row=mysql_fetch_array($q))
+                        {
+                        ?>
+                     <tr>
+                        <td><?php echo $pid = $row['username']; ?></td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                     </tr>
+                     <?php
+                        }
+                        ?>
+                  </tbody>
+               </table>
+            </div>
+         </div>
+      </div>
+   </div>
 </div>
 
 

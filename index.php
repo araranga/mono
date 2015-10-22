@@ -16,7 +16,7 @@ foreach($rowxxx as $key=>$val)
 $_SESSION[$key] = $val;
 }
 
-
+autocreateaccount();
 ?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
