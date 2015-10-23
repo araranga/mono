@@ -85,41 +85,20 @@ include("inc/menu.php");
     <!-- METISMENU SCRIPTS -->
     <script src="assets/js/jquery.metisMenu.js"></script>
      <!-- MORRIS CHART SCRIPTS -->
-     <script src="assets/js/morris/raphael-2.1.0.min.js"></script>
-    <script src="assets/js/morris/morris.js"></script>	
+     <script src="assets/js/dataTables/jquery.dataTables.js"></script>
+     <script src="assets/js/dataTables/dataTables.bootstrap.js"></script>
       <!-- CUSTOM SCRIPTS -->
     <script src="assets/js/custom.js"></script>
 	
-
 <script>
-function profile(idd)
-{
-    jQuery.post("action/getuser.php", {id: idd}, function(result){
-        jQuery("#fade2").html(result);
-		jQuery("#fade2").fadeIn();
-		jQuery("#fade").fadeIn();
-    });
-}
-function closepopup()
-{
-		jQuery("#fade2").fadeOut();
-		jQuery("#fade").fadeOut();
-}
-			<?php
-			$special = $_SESSION['specialmap'];
-			if($special=='')
-			{
-			$reset = 'resettab';
-			}
-			else
-			{
-			$reset = 'resetbug';
-			}
-			?>
-<?php echo $reset;?>();
-
-//jQuery('#progressmeter').attr('style','width:<?php echo $succesmeter;?>40%;').hide();
+jQuery(document).ready( function() {
+jQuery('#dataTables-example').dataTable( {
+ "paginate": false,
+ "sort": true
+});
+});
 </script>
+
  
    
 </body>

@@ -152,4 +152,55 @@ function getrow($var)
 	$array['image'] = 'https://placeholdit.imgix.net/~text?txtsize=19&txt=150%C3%97150&w=200&h=75';
 	return $array;
 }	
+
+
+
+function countquery($query)
+{
+	$q = mysql_query($query);
+	return mysql_num_rows($q);
+}
+
+function getpackagelist()
+{
+   $packrowq = mysql_query("SELECT * FROM tbl_package");
+   while($packrow = mysql_fetch_assoc($packrowq))
+   {
+    $options[$packrow['package_id']] = $packrow['package_name'];
+   }
+   return $options;	
+}
+
+function getwheresearch($field)
+{
+  if($_GET['search']!='')
+  {
+    $search = $_GET['search'];
+   
+    $where = "WHERE";
+
+    foreach($field as $f)
+    {
+        $where .= " $f LIKE '%$search%' OR";
+    }
+        $where .= " 1=1";
+        $where = str_replace("OR 1=1","",$where);
+  }
+  return $where;	
+}
+
+function getlimit($limit,$page)
+{
+	if($page=='')
+	{
+		$page = 0;
+	}
+	$limitx = $limit * $page;
+
+	return "LIMIT $limitx,$limit";
+}
+function getpagecount($total,$limit)
+{
+	return (ceil($total/$limit));
+}
 ?>
