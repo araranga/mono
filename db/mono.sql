@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 23, 2015 at 04:17 AM
+-- Generation Time: Oct 23, 2015 at 06:51 AM
 -- Server version: 5.6.24
 -- PHP Version: 5.5.24
 
@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS `tbl_accounts` (
   `total_earnings` int(255) NOT NULL DEFAULT '0',
   `role` varchar(25) NOT NULL,
   `package_id` varchar(25) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `tbl_accounts`
@@ -44,7 +44,7 @@ CREATE TABLE IF NOT EXISTS `tbl_accounts` (
 
 INSERT INTO `tbl_accounts` (`accounts_id`, `username`, `password`, `email`, `activated`, `balance`, `total_earnings`, `role`, `package_id`) VALUES
 (1, 'admin', '12345', 'admin@gmail.com', '1', 0, 0, '1', '1'),
-(2, 'satch', '12356', 'ardeenathanraranga@gmail.com', '', 0, 0, '', '1');
+(3, 'satch', '1234', 'asd', '1', 0, 0, '', '1');
 
 -- --------------------------------------------------------
 
@@ -57,7 +57,8 @@ CREATE TABLE IF NOT EXISTS `tbl_cycle` (
   `username` varchar(255) NOT NULL,
   `account_link` varchar(255) NOT NULL,
   `cycle_count` varchar(255) NOT NULL,
-  `cycle_link` varchar(255) NOT NULL
+  `cycle_link` varchar(255) NOT NULL,
+  `cycle_status` varchar(25) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -79,7 +80,7 @@ CREATE TABLE IF NOT EXISTS `tbl_package` (
 --
 
 INSERT INTO `tbl_package` (`package_id`, `package_name`, `possible_earning`, `cycle_earn`, `account_count`) VALUES
-(1, 'Test Package233', 25000, 750, 15);
+(1, 'Test Package233', 25000, 750, 60);
 
 -- --------------------------------------------------------
 
@@ -164,7 +165,7 @@ ALTER TABLE `tbl_withdraw_history`
 -- AUTO_INCREMENT for table `tbl_accounts`
 --
 ALTER TABLE `tbl_accounts`
-  MODIFY `accounts_id` int(255) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+  MODIFY `accounts_id` int(255) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `tbl_cycle`
 --

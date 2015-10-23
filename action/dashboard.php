@@ -89,7 +89,7 @@ div#incomeSummary, div#transactionSummary {
          </div>
          <div class="panel-body">
             <?php
-               $q = mysql_query("SELECT * FROM tbl_cycle WHERE account_link='".$_SESSION['accounts_id']."'");
+               $q = mysql_query("SELECT * FROM tbl_cycle WHERE account_link='".$_SESSION['accounts_id']."' AND cycle_count=1");
                ?>
             <div class="table-responsive">
                <table class="table table-striped table-bordered table-hover">

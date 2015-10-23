@@ -62,10 +62,31 @@ function getbaseme()
 		$row = mysql_fetch_assoc($q);
 		return $row;
 	}
+	function getRate($id)
+	{
+		$q = mysql_query("SELECT cycle_earn FROM tbl_package WHERE package_id='$id'");
+		$row = mysql_fetch_assoc($q);
+		return $row['cycle_earn'];
+	}	
+	function getUserPackage($id)
+	{
+		$q = mysql_query("SELECT package_id FROM tbl_accounts WHERE accounts_id='$id'");
+		$row = mysql_fetch_assoc($q);
+		return $row['package_id'];		
+	}
+	function addmoney($uid,$rate)
+	{
+		mysql_query("UPDATE tbl_accounts SET balance = balance + $rate WHERE accounts_id=$uid");
+	}
+	function exitlabel($id)
+	{
+		mysql_query("UPDATE tbl_cycle SET cycle_status = 1 WHERE id=$id");
+	}
 	function cycleinc($id)
 	{
 		$user = loadcycle($id);
 		$inc = $user['cycle_count'] + 1;
+		exitlabel($id);
 		if($inc==4)
 		{
 			$username = "adminbonus-".randid();
@@ -79,8 +100,22 @@ function getbaseme()
 			$username = $user['username']."-".$inc;
 			$account_link = $user['account_link'];
 			$cycle_count = $inc;
-			$cycle_link =$id;
+			if($user['cycle_link']==0)
+			{
+				$cycle_link =$id;
+			}
+			else{
+				$cycle_link = $user['cycle_link'];
+			}
+			
+			
+			$userpackage = getUserPackage($account_link);
+			$rate = getRate($userpackage);
+			addmoney($account_link,$rate);
+			$q = mysql_fetch_assoc(mysql_query("SELECT COUNT(id) as chet FROM tbl_cycle WHERE username='$username' AND account_link='$account_link' AND cycle_count='$cycle_count' AND cycle_link='$cycle_link'"));
+			if($q['chet']==0):
 			mysql_query("INSERT INTO tbl_cycle SET username='$username',account_link='$account_link',cycle_count='$cycle_count',cycle_link='$cycle_link'");
+			endif;
 		}
 	}
 	function cycleevent($row)
