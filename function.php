@@ -78,6 +78,10 @@ function getbaseme()
 	{
 		mysql_query("UPDATE tbl_accounts SET balance = balance + $rate WHERE accounts_id=$uid");
 	}
+	function totalbalance($uid,$rate)
+	{
+		mysql_query("UPDATE tbl_accounts SET total_earnings = total_earnings + $rate WHERE accounts_id=$uid");
+	}	
 	function exitlabel($id)
 	{
 		mysql_query("UPDATE tbl_cycle SET cycle_status = 1 WHERE id=$id");
@@ -87,8 +91,13 @@ function getbaseme()
 		$user = loadcycle($id);
 		$inc = $user['cycle_count'] + 1;
 		exitlabel($id);
+		
+		$userpackage = getUserPackage($user['account_link']);
+		$rate = getRate($userpackage);
+		totalbalance($account_link,$rate);		
 		if($inc==4)
 		{
+			addmoney($account_link,($rate * 3));	
 			$username = "adminbonus-".randid();
 			$account_link = 1;
 			$cycle_count = 1;
@@ -109,9 +118,7 @@ function getbaseme()
 			}
 			
 			
-			$userpackage = getUserPackage($account_link);
-			$rate = getRate($userpackage);
-			addmoney($account_link,$rate);
+
 			$q = mysql_fetch_assoc(mysql_query("SELECT COUNT(id) as chet FROM tbl_cycle WHERE username='$username' AND account_link='$account_link' AND cycle_count='$cycle_count' AND cycle_link='$cycle_link'"));
 			if($q['chet']==0):
 			mysql_query("INSERT INTO tbl_cycle SET username='$username',account_link='$account_link',cycle_count='$cycle_count',cycle_link='$cycle_link'");

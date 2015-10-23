@@ -2,6 +2,7 @@
 session_start();
 require_once("./connect.php");
 require_once("./function.php");
+
 ?>
  <style>
  #incomeSummary > .panel-heading {
@@ -54,7 +55,7 @@ div#incomeSummary, div#transactionSummary {
 		<label class="field">Total Earnings :</label>
 		<label class="fieldVal">
 			<?php
-			echo number_format($total_earnings,2);
+			echo number_format($_SESSION['total_earnings'],2);
 			?>
 		</label>
 	</div>
@@ -63,7 +64,7 @@ div#incomeSummary, div#transactionSummary {
 		<label class="field">Total Available Balance :</label>
 		<label class="fieldVal">
 			<?php
-			echo number_format($total_available_balance,2);
+			echo number_format($_SESSION['balance'],2);
 			?>
 		</label>
 	</div>
@@ -89,6 +90,7 @@ div#incomeSummary, div#transactionSummary {
          </div>
          <div class="panel-body">
             <?php
+			   $rate = getRate($_SESSION['package_id']);
                $q = mysql_query("SELECT * FROM tbl_cycle WHERE account_link='".$_SESSION['accounts_id']."' AND cycle_count=1");
                ?>
             <div class="table-responsive">
@@ -105,12 +107,31 @@ div#incomeSummary, div#transactionSummary {
                      <?php
                         while($row=mysql_fetch_array($q))
                         {
+							$stat = array();
+							if($row['cycle_status']==1) { $stat[1] = $rate; } else { $stat[1] = "Ongoing"; }
+							
+							$count = mysql_num_rows(mysql_query("SELECT id FROM tbl_cycle WHERE cycle_link='".$row['id']."' AND cycle_status=1"));
+							if($count==2)
+							{
+								$stat[2] = $rate;
+								$stat[3] = $rate;
+							}
+							else if($count==1)
+							{
+								$stat[2] = $rate;
+								$stat[3] = "Ongoing";								
+							}
+							else
+							{
+								$stat[2] = "Ongoing";
+								$stat[3] = "Ongoing";								
+							}
                         ?>
                      <tr>
                         <td><?php echo $pid = $row['username']; ?></td>
-                        <td>-</td>
-                        <td>-</td>
-                        <td>-</td>
+                        <td><?php echo $stat[1];?></td>
+                        <td><?php echo $stat[2];?></td>
+                        <td><?php echo $stat[3];?></td>
                      </tr>
                      <?php
                         }

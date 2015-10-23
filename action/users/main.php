@@ -7,13 +7,13 @@ while($packrow = mysql_fetch_assoc($packrowq))
 	$options[$packrow['package_id']] = $packrow['package_name'];
 }
 ?>
+
 <h2>Users</h2>
                     <div class="panel panel-default">
-
-                        <div class="panel-body">
+                        <div class="panel-body">				
                             <div class="table-responsive">
 							<input onclick="window.location='<?php echo "?pages=".$_GET['pages']."&task=add"; ?>';" type="button" class="btn btn-primary btn-lg" value="Add">
-                                <table class="table table-striped table-bordered table-hover">
+                                <table class="table table-striped table-bordered table-hover dataTable no-footer" id="dataTables-example" aria-describedby="dataTables-example_info">
                                     <thead>
                                         <tr>
                                             <th>Accounts ID</th>
