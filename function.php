@@ -94,7 +94,7 @@ function getbaseme()
 		
 		$userpackage = getUserPackage($user['account_link']);
 		$rate = getRate($userpackage);
-		totalbalance($account_link,$rate);		
+		totalbalance($user['account_link'],$rate);	 	
 		if($inc==4)
 		{
 			addmoney($account_link,($rate * 3));	
