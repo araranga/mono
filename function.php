@@ -46,47 +46,59 @@ function getbaseme()
 			return;
 		}
 	}
-
-
-function success200($curtbladded,$id)
-{
-$log  = '';
-			$q1 = mysql_query("SELECT parent as parentx,curtbl,(SELECT COUNT(child) FROM tbl_othertablebeta WHERE parent=parentx AND curtbl='$curtbladded') AS total FROM tbl_othertablebeta WHERE curtbl = '$curtbladded' AND parent!=0
-			GROUP by parent
-			HAVING total < 2");			
-			$q1row = mysql_fetch_assoc($q1);
-			if($q1row['parentx']=='')
+	function autodetectparent()
+	{
+		$query ="SELECT username,account_link,cycle_count,id as alink,(SELECT COUNT(id) FROM tbl_relation WHERE parent = alink) as checkparent FROM tbl_cycle HAVING checkparent < 2    ORDER by id ASC LIMIT 1 ";
+		return mysql_query($query);
+	}
+	function autodetectchild($parentid)
+	{
+	$query = "SELECT username,account_link,cycle_count,id as alink,(SELECT COUNT(id) FROM tbl_relation WHERE child = alink) as checkchild FROM tbl_cycle WHERE id!=$parentid AND id > $parentid HAVING checkchild = 0 ORDER by id ASC LIMIT 1";
+		return mysql_query($query);
+	}
+	function loadcycle($id)
+	{
+		$q = mysql_query("SELECT * FROM tbl_cycle WHERE id='$id'");
+		$row = mysql_fetch_assoc($q);
+		return $row;
+	}
+	function cycleinc($id)
+	{
+		$user = loadcycle($id);
+		$inc = $user['cycle_count'] + 1;
+		if($inc==4)
+		{
+			$username = "adminbonus-".randid();
+			$account_link = 1;
+			$cycle_count = 1;
+			$cycle_link = 0;
+			mysql_query("INSERT INTO tbl_cycle SET username='$username',account_link='$account_link',cycle_count='$cycle_count',cycle_link='$cycle_link'");			
+		}
+		else
+		{
+			$username = $user['username']."-".$inc;
+			$account_link = $user['account_link'];
+			$cycle_count = $inc;
+			$cycle_link =$id;
+			mysql_query("INSERT INTO tbl_cycle SET username='$username',account_link='$account_link',cycle_count='$cycle_count',cycle_link='$cycle_link'");
+		}
+	}
+	function cycleevent($row)
+	{
+		$rowx = mysql_fetch_assoc(autodetectchild($row['alink']));
+		$parent = $row['alink'];
+		$child = $rowx['alink'];
+		if($child!='')
+		{
+			mysql_query("INSERT INTO tbl_relation SET parent='$parent',child='$child'");
+			$q = mysql_fetch_assoc(mysql_query("SELECT COUNT(parent) as chet FROM tbl_relation WHERE parent='$parent'"));
+			if($q['chet']==2)
 			{
-				$q2 = mysql_query("SELECT child FROM tbl_othertablebeta  WHERE curtbl='$curtbladded' AND child NOT IN (SELECT parent FROM tbl_othertablebeta WHERE curtbl='$curtbladded') GROUP by child ORDER BY id ASC LIMIT 0 , 1");			
-				$q2row = mysql_fetch_assoc($q2);
-				if($q2row['child']!='')
-				{
-					mysql_query("INSERT INTO tbl_othertablebeta SET curtbl='$curtbladded',child='$id',parent='".$q2row['child']."'");								
-				}
-				else
-				{
-					$q3 = mysql_query("SELECT child FROM tbl_othertablebeta WHERE parent=0 AND curtbl='$curtbladded'");									
-					if(mysql_num_rows($q3)==0)
-					{
-					mysql_query("INSERT INTO tbl_othertablebeta SET curtbl='$curtbladded',child='$id',parent='0'");						
-					}
-					else
-					{
-					$q3row = mysql_fetch_assoc($q3);
-					mysql_query("INSERT INTO tbl_othertablebeta SET curtbl='$curtbladded',child='$id',parent='".$q3row['child']."'");											
-					mysql_query("DELETE FROM tbl_othertablebeta WHERE child='".$q3row['child']."' AND parent='0' AND curtbl='$curtbladded'");
-					} 
-				}
-			} 
-			else
-			{	
-				mysql_query("DELETE FROM tbl_othertablebeta WHERE child='".$q1row['parentx']."' AND parent='0' AND curtbl='$curtbladded'");
-				mysql_query("INSERT INTO tbl_othertablebeta SET curtbl='$curtbladded',child='$id',parent='".$q1row['parentx']."'");						
-			}	
-			
-			#mysql_query("INSERT INTO tbl_logger SET acc='$id',log='$log'");
-	
-}
+				cycleinc($parent);
+			}
+		}
+		
+	}
 function mytimestamp()
 {
 	return date('Y-m-d H:i:s');

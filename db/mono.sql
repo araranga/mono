@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.4.12
+-- version 4.3.11
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 21, 2015 at 02:21 PM
--- Server version: 5.6.25
--- PHP Version: 5.5.27
+-- Generation Time: Oct 23, 2015 at 04:17 AM
+-- Server version: 5.6.24
+-- PHP Version: 5.5.24
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -14,7 +14,7 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
+/*!40101 SET NAMES utf8 */;
 
 --
 -- Database: `mono`
@@ -44,7 +44,7 @@ CREATE TABLE IF NOT EXISTS `tbl_accounts` (
 
 INSERT INTO `tbl_accounts` (`accounts_id`, `username`, `password`, `email`, `activated`, `balance`, `total_earnings`, `role`, `package_id`) VALUES
 (1, 'admin', '12345', 'admin@gmail.com', '1', 0, 0, '1', '1'),
-(2, 'satch', '1235', 'ardeenathanraranga@gmail.com', '', 0, 0, '', '1');
+(2, 'satch', '12356', 'ardeenathanraranga@gmail.com', '', 0, 0, '', '1');
 
 -- --------------------------------------------------------
 
@@ -78,12 +78,21 @@ CREATE TABLE IF NOT EXISTS `tbl_package` (
 -- Dumping data for table `tbl_package`
 --
 
-INSERT INTO `tbl_package` (`package_id`, `package_name`, `possible_earning`, `account_count`) VALUES
-(1, 'Test Package233', 25000, 15),
-(2, 'ardee', 255, 60),
-(3, 'ardee', 255, 60),
-(4, 'ardee', 255, 60),
-(5, 'ardee', 1, 23);
+INSERT INTO `tbl_package` (`package_id`, `package_name`, `possible_earning`, `cycle_earn`, `account_count`) VALUES
+(1, 'Test Package233', 25000, 750, 15);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_relation`
+--
+
+CREATE TABLE IF NOT EXISTS `tbl_relation` (
+  `id` int(255) NOT NULL,
+  `parent` int(255) NOT NULL,
+  `child` int(255) NOT NULL,
+  `notes` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -136,6 +145,12 @@ ALTER TABLE `tbl_package`
   ADD PRIMARY KEY (`package_id`);
 
 --
+-- Indexes for table `tbl_relation`
+--
+ALTER TABLE `tbl_relation`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `tbl_withdraw_history`
 --
 ALTER TABLE `tbl_withdraw_history`
@@ -160,6 +175,11 @@ ALTER TABLE `tbl_cycle`
 --
 ALTER TABLE `tbl_package`
   MODIFY `package_id` int(255) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
+--
+-- AUTO_INCREMENT for table `tbl_relation`
+--
+ALTER TABLE `tbl_relation`
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `tbl_withdraw_history`
 --
