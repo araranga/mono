@@ -207,4 +207,78 @@ function getpagecount($total,$limit)
 {
 	return (ceil($total/$limit));
 }
+
+
+
+
+
+
+
+
+
+
+function csv()
+{
+		header('Content-Type: text/csv; charset=utf-8');
+
+		header('Content-Disposition: attachment; filename=payout-'.$_GET['r']."-".rand().'.csv');
+
+		// create a file pointer connected to the output stream
+
+		$output = fopen('php://output', 'w');
+
+		if($_GET['r']=='bank')
+
+		{
+
+		$rows = mysql_query("SELECT b.accounts_id,b.username,transnum,email,amount,bank_name,bank_accountnumber,bank_accountname FROM  tbl_withdraw_history as a JOIN tbl_accounts as b WHERE claim_status=0 AND a.accounts_id=b.accounts_id AND claimtype='".$_GET['r']."'
+
+		");
+
+		$array = explode(",","accounts_id,username,transnum,email,amount,bank_name,bank_accountnumber,bank_accountname");	
+
+		}
+
+
+
+
+		if($_GET['r']=='pickup')
+
+		{
+
+		$rows = mysql_query("SELECT b.accounts_id,b.username,transnum,email,amount FROM  tbl_withdraw_history as a JOIN tbl_accounts as b WHERE claim_status=0 AND a.accounts_id=b.accounts_id AND claimtype='".$_GET['r']."'");
+
+		$array = explode(",","accounts_id,username,transnum,email,amount");	
+
+		}
+
+
+
+
+
+
+
+		fputcsv($output,$array);
+
+		// loop over the rows, outputting them
+
+		while ($row = mysql_fetch_assoc($rows)) 
+
+		{
+
+		foreach($row as $key=>$val)
+
+		{
+
+		$row[$key] = "\"".$val."\"";
+
+		}
+
+		fputcsv($output, $row);
+
+		}	
+}
+
+
+
 ?>

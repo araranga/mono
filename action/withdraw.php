@@ -34,6 +34,28 @@ if($_POST['submit']!='' && $_POST['task']=='delete')
 /*SQL*/
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 if($_SESSION['role']!=1)
 {
 	exit("hey your not allowed here");
@@ -47,6 +69,11 @@ if($_GET['task']=='setclaim')
 {
 	
 	include($_GET['pages']."/main.php");
+}
+
+if($_GET['task']=='csv')
+{
+	csv();
 }
 if($_GET['task']=='add')
 {

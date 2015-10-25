@@ -40,7 +40,7 @@
                <div class="panel panel-default">
                   <div class="panel-body">
                     Export by:
-                    <form method=''>
+                    <form action='csv.php'> 
                     <select name='r'>
                       <option value='bank'>Bank</option>
                       <option value='pickup'>Pickup</option>
