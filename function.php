@@ -195,6 +195,10 @@ function getlimit($limit,$page)
 	{
 		$page = 0;
 	}
+	else
+	{
+		$page--;
+	}
 	$limitx = $limit * $page;
 
 	return "LIMIT $limitx,$limit";

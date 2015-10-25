@@ -15,12 +15,12 @@ while($packrow = mysql_fetch_assoc($packrowq))
 {
 	$options[$packrow['package_id']] = $packrow['package_name'];
 }
-$field[] = array("type"=>"text","value"=>"username","label"=>"Username");
-$field[] = array("type"=>"text","value"=>"password","label"=>"Password");
-$field[] = array("type"=>"email","value"=>"email","label"=>"Email");
-#$field[] = array("type"=>"select","value"=>"package_id","label"=>"Package","option"=>$options,"attr"=>"disabled");
+$field[] = array("type"=>"text","value"=>"username","label"=>"Username","attr"=>"disabled");
+$field[] = array("type"=>"text","value"=>"password","label"=>"Password","attr"=>"disabled");
+$field[] = array("type"=>"email","value"=>"email","label"=>"Email","attr"=>"disabled");
+$field[] = array("type"=>"select","value"=>"package_id","label"=>"Package","option"=>$options,"attr"=>"disabled");
 ?>
-<h2>Users</h2>
+<h2>Are you sure you want to delete?</h2>
 <div class="panel panel-default">
    <div class="panel-body">
       <form method='POST' action='?pages=<?php echo $_GET['pages'];?>'>
@@ -51,10 +51,10 @@ $field[] = array("type"=>"email","value"=>"email","label"=>"Email");
                   <select name="<?php echo $inputs['value']; ?>" id="<?php echo $inputs['value']; ?>" required <?php echo $inputs['attr']; ?>
                      >
                      <?php
-                        foreach($inputs['option'] as $key=>$val)
+                        foreach($inputs['option'] as $val)
                         {
                         	?>
-                     <option <?php if($$inputs['value']==$key){echo"selected='selected'";} ?> value='<?php echo $key;?>'><?php echo $val;?></option>
+                     <option <?php if($$inputs['value']==$val){echo"selected='selected'";} ?> value='<?php echo $val;?>'><?php echo $val;?></option>
                      <?php
                         }
                         ?>

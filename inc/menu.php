@@ -50,6 +50,9 @@
 					   <li>
 						  <a href="index.php?pages=users">Users</a>
 					   </li>
+                  <li>
+                    <a href="index.php?pages=withdraw">Withdraw</a>
+                  </li>                  
 					</ul>
 				 </li>			
 			<?php

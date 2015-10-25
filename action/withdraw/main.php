@@ -1,10 +1,10 @@
 ﻿<?php
- $field = array("accounts_id","username","email");
+ $field = array("transnum","email","username");
  $where = getwheresearch($field);
- $total = countquery("SELECT username FROM tbl_accounts");
+ $total = countquery("SELECT id FROM tbl_withdraw_history");
  //primary query
  $limit = getlimit(10,$_GET['p']);
- $query = "SELECT * FROM tbl_accounts $where $limit";
+ $query = "SELECT * FROM tbl_withdraw_history as a LEFT JOIN tbl_accounts as b on a.accounts_id=b.accounts_id $where $limit";
 
  $q = mysql_query($query);
  $options = getpackagelist();
@@ -18,21 +18,14 @@
     display:none;
 }
 </style>
-<h2>Users</h2>
+<h2>Payouts</h2>
 <div class="panel panel-default">
    <div class="panel-body">
          <div class="row">
-            <div class="col-md-2">
+            <div class="col-md-12">
                <div class="panel panel-default">
                   <div class="panel-body">
-                    <input onclick="window.location='<?php echo "?pages=".$_GET['pages']."&task=add"; ?>';" type="button" class="btn btn-primary" value="Add New Data">
-                  </div>
-               </div>
-            </div>
-            <div class="col-md-10">
-               <div class="panel panel-default">
-                  <div class="panel-body">
-                    Search by: Username,Email,Accounts ID:
+                    Search by: Username,Transact#:
                     <form method=''>
                     <input type='text' value='<?php echo $_GET['search']; ?>' name='search'>
                     <input type='hidden' name='pages' value='<?php echo $_GET['pages'];?>'>
@@ -41,7 +34,25 @@
                   </div>
                </div>
             </div>            
-         </div>    
+         </div>
+         <div class="row">
+            <div class="col-md-12">
+               <div class="panel panel-default">
+                  <div class="panel-body">
+                    Export by:
+                    <form method=''>
+                    <select name='r'>
+                      <option value='bank'>Bank</option>
+                      <option value='pickup'>Pickup</option>
+                    </select>
+                    <input type='hidden' name='pages' value='<?php echo $_GET['pages'];?>'>
+                    <input type='hidden' name='task' value='csv'>
+                    <input type='submit' name='export' class="btn btn-primary"/>
+                    </form>
+                  </div>
+               </div>
+            </div>            
+         </div>                 
       <div class="table-responsive">
 
          
@@ -49,10 +60,11 @@
          <table class="table table-striped table-bordered table-hover dataTable no-footer" id="dataTables-example">
             <thead>
                <tr role='row'>
-                  <th>Accounts ID</th>
-                  <th>UserName / Password</th>
-                  <th>Package</th>
-                  <th>Email</th>
+                  <th>Trans #</th>
+                  <th>UserName / Email</th>
+                  <th>Type</th>
+                  <th>Amount</th>
+                  <th>Status</th>
                   <th>Action</th>
                </tr>
             </thead>
@@ -60,14 +72,34 @@
                <?php
                   while($row=mysql_fetch_array($q))
                   {
+                    $pid =  $row['id'];
                   ?>
                <tr>
-                  <td><?php echo $pid = $row['accounts_id']; ?></td>
-                  <td><?php echo $row['username']; ?> / <?php echo $row['password']; ?></td>
-                  <td><?php echo $options[$row['package_id']]; ?></td>
-                  <td><?php echo $row['email']; ?></td>
+                  <td><?php echo $row['transnum']; ?></td>
+                  <td><?php echo $row['username']; ?> / <?php echo $row['email']; ?></td>
+                  <td><?php echo $row['claimtype']; ?></td>
+                  <td><?php echo $row['amount']; ?></td>
                   <td>
-                     <input onclick="window.location='<?php echo "?pages=".$_GET['pages']."&task=edit&id=$pid"; ?>';" type="button" class="btn btn-primary btn-sm" value="Edit">
+                    <?php
+                    if($row['claim_status']==0)
+                    {
+                      echo "Pending";
+                    } 
+                    else
+                    {
+                      echo "Claimed";
+                    }
+                    ?>
+                  </td>
+                  <td>
+<?php
+if($row['claim_status']==0)
+{
+?>
+    <input onclick="window.location='<?php echo "?pages=".$_GET['pages']."&task=setclaim&id=$pid"; ?>';" type="button" class="btn btn-primary btn-sm" value="Mark as Claim">
+<?php
+}
+?>
                      <input onclick="window.location='<?php echo "?pages=".$_GET['pages']."&task=delete&id=$pid"; ?>';" type="button" class="btn btn-primary btn-sm" value="Delete">
                   </td>
                </tr>
